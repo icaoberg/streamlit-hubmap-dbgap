@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import requests
 from pprint import pprint
 from datetime import date
 
