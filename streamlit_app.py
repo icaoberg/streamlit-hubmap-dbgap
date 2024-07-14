@@ -4,10 +4,15 @@ import requests
 from pprint import pprint
 from datetime import date
 
-logo_url = 'https://avatars.githubusercontent.com/u/44688968?s=280&v=4'
+# Set the page configuration to wide layout
+st.set_page_config(layout="wide")
+
+logo_url = 'https://insidebigdata.com/wp-content/uploads/2020/09/HuBMAP_logo.png'
 st.image(logo_url)
 
-title = '# HuBMAP'
+title = '''# The Human BioMolecular Atlas Program (HuBMAP)
+## Simple observation of dbGaP datasets
+'''
 st.write(title)
 
 from datetime import date
@@ -45,7 +50,13 @@ def get_data() -> pd.DataFrame:
             df = df[df['status']=='Published']
             df = df[df['data_access_level']=='protected']
             df['dataset_status'] = df['dataset_type'].apply(determine_type)
-            print("Data successfully loaded.")  # Print a message indicating success
+            df['published_timestamp'] = pd.to_datetime(df['published_timestamp'])
+            df['date'] = df['timestamp'].dt.date
+            columns = ['uuid', 'hubmap_id', 'group_name', 'date']
+            df = df[columns]
+            if 'hubmap_id' in df.columns:
+                # Set the hubmap_id as the new index
+                df.set_index('hubmap_id', inplace=True)
         else:
             raise KeyError("'data' key not found in the JSON response")  # Raise an error if 'data' key is missing
 
