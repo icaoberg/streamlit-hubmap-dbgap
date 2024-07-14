@@ -43,6 +43,7 @@ def get_data() -> pd.DataFrame:
         if 'data' in json_data:  # Check if the JSON contains the key 'data'
             df = pd.DataFrame(json_data['data'])  # Create a DataFrame using the data under 'data' key
             df = df[df['status']=='Published']
+            df = df[df['data_access_level']=='Protected']
             df['dataset_status'] = df['dataset_type'].apply(determine_type)
             print("Data successfully loaded.")  # Print a message indicating success
         else:
