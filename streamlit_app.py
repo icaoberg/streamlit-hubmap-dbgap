@@ -12,8 +12,7 @@ st.write(title)
 from datetime import date
 
 # Get today's date
-today = date.today()
-today = today_date.strftime("%Y-%m-%d")
+today = data.today().strftime("%Y-%m-%d")
 st.write(today)
 
 ## DO NOT MODIFY THIS BLOCK
