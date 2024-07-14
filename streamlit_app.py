@@ -8,7 +8,7 @@ from datetime import date
 logo_url = 'https://avatars.githubusercontent.com/u/44688968?s=280&v=4'
 st.image(logo_url)
 
-title = '# HuBMAP
+title = '# HuBMAP'
 st.write(title)
 
 from datetime import date
