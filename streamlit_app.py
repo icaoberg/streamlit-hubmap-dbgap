@@ -61,4 +61,4 @@ df = get_data()
 
 text = '## Published data'
 st.write(text)
-st.text(df)
+st.dataframe(df)
