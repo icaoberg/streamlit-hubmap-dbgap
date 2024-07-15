@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from pprint import pprint
 from datetime import date
+from datetime import datetime
 
 # Set the page configuration to wide layout
 st.set_page_config(layout="wide")
@@ -28,6 +29,12 @@ def determine_type(dataset_type: str) -> str:
         return 'Derived'
     else:
         return 'Primary'
+    
+def timestamp_to_date(timestamp):
+   datetime_obj = datetime.fromtimestamp(timestamp)
+   date = datetime_obj.date()
+   return date
+
 
 @st.cache_data
 def get_data() -> pd.DataFrame:
@@ -50,9 +57,9 @@ def get_data() -> pd.DataFrame:
             df = df[df['status']=='Published']
             df = df[df['data_access_level']=='protected']
             df['dataset_status'] = df['dataset_type'].apply(determine_type)
-            df['published_timestamp'] = pd.to_datetime(df['published_timestamp'])
-            df['date'] = df['timestamp'].dt.date
-            columns = ['uuid', 'hubmap_id', 'group_name', 'date']
+            df['published_timestamp'] = df['published_timestamp']/1000
+            df['date'] = df['published_timestamp'].apply(timestamp_to_date)
+            columns = ['hubmap_id', 'date', 'uuid', 'group_name']
             df = df[columns]
             if 'hubmap_id' in df.columns:
                 # Set the hubmap_id as the new index
